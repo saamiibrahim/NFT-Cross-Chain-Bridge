@@ -21,11 +21,14 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface ITokenInterface extends ethers.utils.Interface {
   functions: {
-    "burn(uint256)": FunctionFragment;
+    "burn(address,uint256)": FunctionFragment;
     "mint(address)": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "burn", values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: "burn",
+    values: [string, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "mint", values: [string]): string;
 
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
@@ -79,6 +82,7 @@ export class IToken extends BaseContract {
 
   functions: {
     burn(
+      to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -90,6 +94,7 @@ export class IToken extends BaseContract {
   };
 
   burn(
+    to: string,
     tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -100,7 +105,11 @@ export class IToken extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    burn(tokenId: BigNumberish, overrides?: CallOverrides): Promise<void>;
+    burn(
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     mint(to: string, overrides?: CallOverrides): Promise<void>;
   };
@@ -109,6 +118,7 @@ export class IToken extends BaseContract {
 
   estimateGas: {
     burn(
+      to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -121,6 +131,7 @@ export class IToken extends BaseContract {
 
   populateTransaction: {
     burn(
+      to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

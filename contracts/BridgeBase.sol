@@ -1,6 +1,6 @@
 pragma solidity ^0.8.0;
 
-// import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+
 import './IToken.sol';
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -18,7 +18,7 @@ contract BridgeBase {
   event Transfer(
     address from,
     address to,
-    uint amount,
+    uint tokenId,
     uint date,
     uint nonce,
     Step indexed step
@@ -33,7 +33,7 @@ contract BridgeBase {
   function burn(address to,uint256 tokenId) external {
     // require(_isApprovedOrOwner(msg.sender, tokenId));
     
-    token.burn(tokenId);
+    token.burn(to,tokenId);
     
     emit Transfer(
       msg.sender,
@@ -43,25 +43,27 @@ contract BridgeBase {
       nonce,
       Step.Burn
     );
+  nonce++;
   }
  
 
- function mint(address to, uint otherChainNonce) external  {
-    require(msg.sender == admin, 'only admin');
+ function mint(address to, uint otherChainNonce,uint tokenId) external  {
+    // require(msg.sender == admin, 'only admin');
     require(processedNonces[otherChainNonce] == false, 'transfer already processed');
     processedNonces[otherChainNonce] = true;
     
     
     token.mint(to);
     
-    // emit Transfer(
-    //   msg.sender,
-    //   to,
-    //   tokenId,
-    //   block.timestamp,
-    //   otherChainNonce,
-    //   Step.Mint
-    // );
+    emit Transfer(
+      msg.sender,
+      to,
+      tokenId,
+      block.timestamp,
+      otherChainNonce,
+      Step.Mint
+    );
+     nonce++;
     }
   
 

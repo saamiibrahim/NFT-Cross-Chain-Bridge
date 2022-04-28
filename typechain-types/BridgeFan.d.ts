@@ -23,7 +23,7 @@ interface BridgeFanInterface extends ethers.utils.Interface {
   functions: {
     "admin()": FunctionFragment;
     "burn(address,uint256)": FunctionFragment;
-    "mint(address,uint256)": FunctionFragment;
+    "mint(address,uint256,uint256)": FunctionFragment;
     "nonce()": FunctionFragment;
     "processedNonces(uint256)": FunctionFragment;
     "token()": FunctionFragment;
@@ -36,7 +36,7 @@ interface BridgeFanInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
-    values: [string, BigNumberish]
+    values: [string, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "nonce", values?: undefined): string;
   encodeFunctionData(
@@ -66,7 +66,7 @@ export type TransferEvent = TypedEvent<
   [string, string, BigNumber, BigNumber, BigNumber, number] & {
     from: string;
     to: string;
-    amount: BigNumber;
+    tokenId: BigNumber;
     date: BigNumber;
     nonce: BigNumber;
     step: number;
@@ -128,6 +128,7 @@ export class BridgeFan extends BaseContract {
     mint(
       to: string,
       otherChainNonce: BigNumberish,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -152,6 +153,7 @@ export class BridgeFan extends BaseContract {
   mint(
     to: string,
     otherChainNonce: BigNumberish,
+    tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -176,6 +178,7 @@ export class BridgeFan extends BaseContract {
     mint(
       to: string,
       otherChainNonce: BigNumberish,
+      tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -193,7 +196,7 @@ export class BridgeFan extends BaseContract {
     "Transfer(address,address,uint256,uint256,uint256,uint8)"(
       from?: null,
       to?: null,
-      amount?: null,
+      tokenId?: null,
       date?: null,
       nonce?: null,
       step?: BigNumberish | null
@@ -202,7 +205,7 @@ export class BridgeFan extends BaseContract {
       {
         from: string;
         to: string;
-        amount: BigNumber;
+        tokenId: BigNumber;
         date: BigNumber;
         nonce: BigNumber;
         step: number;
@@ -212,7 +215,7 @@ export class BridgeFan extends BaseContract {
     Transfer(
       from?: null,
       to?: null,
-      amount?: null,
+      tokenId?: null,
       date?: null,
       nonce?: null,
       step?: BigNumberish | null
@@ -221,7 +224,7 @@ export class BridgeFan extends BaseContract {
       {
         from: string;
         to: string;
-        amount: BigNumber;
+        tokenId: BigNumber;
         date: BigNumber;
         nonce: BigNumber;
         step: number;
@@ -241,6 +244,7 @@ export class BridgeFan extends BaseContract {
     mint(
       to: string,
       otherChainNonce: BigNumberish,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -266,6 +270,7 @@ export class BridgeFan extends BaseContract {
     mint(
       to: string,
       otherChainNonce: BigNumberish,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

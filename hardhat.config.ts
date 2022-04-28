@@ -59,13 +59,15 @@ const config: HardhatUserConfig = {
         rinkeby:{
             url: "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
             chainId: 4,
-            gasPrice: 20000000000,
+            // gas: 2100000, 
+            // gasPrice: 2000000000,
             accounts : {mnemonic:mnemonic}
         },
         fantomTestNet:{
-            url: "https://xapi.testnet.fantom.network/lachesis",
+            url: "https://rpc.testnet.fantom.network/",
             chainId: 4002,
-            gasPrice: 20000000000,
+            // gas: 2100000, 
+            // gasPrice: 200000000000,
             accounts : {mnemonic:mnemonic}
         },
         bscTestNet:{

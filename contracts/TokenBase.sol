@@ -1,6 +1,6 @@
 pragma solidity ^0.8.0;
 
-// import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
+
 
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -24,7 +24,7 @@ contract TokenBase is ERC721{
   }
 
   function mint(address to) external {
-    require(msg.sender == admin, 'only admin');
+    // require(msg.sender == admin, 'only admin');
 
     uint256 tokenId = _tokenIdCounter.current();
     _tokenIdCounter.increment();
@@ -33,10 +33,10 @@ contract TokenBase is ERC721{
     // _mint(to, amount);
   }
 
-  function burn(uint tokenId) external {
-    require(msg.sender == admin, 'only admin');
+  function burn(address to,uint tokenId) external {
+    // require(msg.sender == admin, 'only admin');
  
-    require(_isApprovedOrOwner(msg.sender, tokenId));
+    // require(_isApprovedOrOwner(msg.sender, tokenId));
     _burn(tokenId);
    
     // _burn(owner, amount);
